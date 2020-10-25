@@ -1,324 +1,136 @@
-# giabalanai Build Guide  〜 rev.01 用 〜
-*rev.02用のビルドガイドは[こちら](https://github.com/3araht/giabalanai/blob/master/docs/build.md)*
+# giabalanai Build Guide ~ For rev.02 ~
+* Click here for the build guide for rev.01 (https://github.com/3araht/giabalanai/blob/master/docs/build_r01.md) *
 
-**一度すべて読んでから組み立てることをお勧めします。**
+Please check whether it is rev.01 or rev.02 as it is written on the board.
 
-## 0 パーツの確認、各部品の実装面の整理
-### キット付属品
+The biggest difference between rev.01 and rev.02 is how to implement the front and back of Pro Micro. Since rev.02 is a 4 mm shakotan, the front side of the Pro Micro is facing the board side to be mounted.
 
-| パーツ名 |  個数  |  備考  |
-|--------|-------|-------|  
-|左手側基板|1枚|キーが平行四辺形に5行12列配置されているもの。|
-|右手側基板|1枚|キーが上から12列、13列、12列、13列、12列配置されていて、右端にはエンコーダーが配置されているもの。|
-|ボトムプレート|2枚|左手側基板も右手側基板も同じボトムプレートを使います。|
-|M2 スペーサー |20個|左右各10個|
-|M2 ネジ|40個|左右各20個|
-|クッションシール|10個|左右各5個|
-|TRRSジャック|2個|左右の基板を繋ぐTRRSケーブル用|
-|リセットスイッチ|2個|ファームウェアを書き込むときに使います。|
-|ダイオード 1N4148|99個|左手側は60個、右手側は38個＋エンコーダ用1個|
+** It is recommended to read everything once before assembling. ** **
 
-右手側は62ボタンありますが、そのうち24ボタンは音が重複しているボタンなので、ダイオードは24個少なくてよく、右手側は38個あれば良い事になります。
-そこにエンコーダー分を加えて右側はダイオードを39個使います。
-キットには123個入ってますが、24個は使いません。
 
-### 別途用意いただく必要のあるもの
+## 0 Checking parts and organizing the mounting surface of each part
+### Kit accessories
 
-| パーツ名 |  個数  |  備考  |
-|--------|-------|--------|  
-|[Pro Micro （コンスルー付き）](https://yushakobo.jp/shop/promicro-spring-pinheader/)|2個|ファームウェア なし をお選びください（別途書き込みます）。|
-|キースイッチ(CherryMX 互換品)|122個|左手側60個＋右手側62個。|
-|MX対応キーキャップ|122個|1U、左60個＋右62個。（5pinタイプ推奨） |
-|[TRRSケーブル](https://yushakobo.jp/shop/trrs_cable/)|1本|AUXケーブルとも呼ばれている3.5mmオーディオ用の4極ケーブル(左手側のLEDも発光させる場合は4極ケーブルが必須)。|
-|[MicroUSBケーブル](https://yushakobo.jp/shop/usb_cable_micro_b/)|1本|Pro Micro 側のコネクタの耐久性が低いためマグネット式を推奨。左右の基板の Pro Micro にファームウェア書き込むときにとても便利です。|
+| Part name | Quantity | Remarks |
+| -------- | ------- | ------- |
+| Left-hand side board | 1 sheet | Keys are arranged in a parallelogram in 5 rows and 12 columns. |
+| Right-hand side board | 1 sheet | Keys are arranged in 12 rows, 13 rows, 12 rows, 13 rows, and 12 rows from the top, and an encoder is arranged at the right end. |
+| Bottom plate | 2 sheets | Use the same bottom plate for both the left-hand side board and the right-hand side board. |
+| M2 spacers | 20 pieces | 10 pieces each on the left and right |
+| M2 screws | 40 pcs | 20 pcs each on the left and right |
+Cushion seal | 10 pieces | 5 pieces each on the left and right |
+| TRRS jack | 2 | For TRRS cable connecting left and right boards |
+| Reset switch | 2 | Used when writing firmware. |
+Diode 1N4148 | 99 pieces | 60 pieces on the left hand side, 38 pieces on the right hand side + 1 piece for encoder |
 
-### [Optional]別途用意いただく必要のあるもの
+There are 62 buttons on the right-hand side, but 24 of them have overlapping sounds, so 24 diodes are required and 38 on the right-hand side are sufficient.
+Add the encoder to it and use 39 diodes on the right side.
 
-| パーツ名 |  個数  |  備考  |
-|--------|-------|-------|
-|[ロータリーエンコーダ(ノブ付き)](https://yushakobo.jp/shop/pec12r-4222f-s0024/)|1個|右手側のキーボードに配置。音量調整＋ミュート用のロータリーエンコーダを取り付ける場合は必要。|
-|LED（SK6812mini）|123個|2の「Backlight RGB LED」を使う場合に必要。左60個＋右62個＋エンコーダ用1個。|
 
-### オモテ面、裏面の実装物
+### Items that need to be prepared separately
 
-**※ 部品の実装には順番があります。特に、Pro Micro、キースイッチ、エンコーダ、の実装は最後になりますので先に実装しないよう注意ください。
-実装の順番はこの後の手順に従ってください。**
+| Part name | Quantity | Remarks |
+| -------- | ------- | -------- |
+| [Pro Micro (with conthrough)] (https://yushakobo.jp/shop/promicro-spring-pinheader/) | 2 | Please select without firmware (write separately). |
+| Key switch (Cherry MX compatible product) | 122 pieces | Left hand side 60 pieces + Right hand side 62 pieces. |
+| MX compatible keycaps | 122 pieces | 1U, left 60 pieces + right 62 pieces. (5pin type recommended) |
+| [TRRS cable] (https://yushakobo.jp/shop/trrs_cable/) | 1 | 4 pole cable for 3.5mm audio, also known as AUX cable Cable required). |
+| [Micro USB cable] (https://yushakobo.jp/shop/usb_cable_micro_b/) | 1 | Pro Micro side connector has low durability, so magnet type is recommended. This is very convenient when writing firmware to the Pro Micro on the left and right boards. Also, since the cable must be capable of data communication, the charging cable cannot be used. If you can't write the Hex file, check the cable. |
 
-基板の裏面には、ダイオードの実装場所やキーボード名が印字されています。
+### [Optional] Items that need to be prepared separately
 
-左手側 オモテ面  
-<img width="700" alt="RGB" src="https://github.com/3araht/giabalanai/blob/master/pictures/left_front_pcb.jpg">
+| Part name | Quantity | Remarks |
+| -------- | ------- | ------- |
+| [Rotary encoder (with knob)] (https://yushakobo.jp/shop/pec12r-4222f-s0024/) | 1 piece | Placed on the keyboard on the right hand side. Required when installing a rotary encoder for volume adjustment + mute. You can switch layers by pressing and holding + 〇〇, so I think it is better to have it. |
+| LED (SK6812mini) | 123 | Required when using 2 "Backlight RGB LEDs". 60 on the left + 62 on the right + 1 for encoder. Since it involves difficult soldering, we recommend that beginners of soldering assemble without LEDs. |
 
-左手側 裏面  
-<img width="700" alt="RGB" src="https://github.com/3araht/giabalanai/blob/master/pictures/left_rear_pcb.jpg">
+### Front and back mountings
 
-右手側 オモテ面  
-<img width="700" alt="RGB" src="https://github.com/3araht/giabalanai/blob/master/pictures/right_front_pcb.jpg">
+** * There is an order for mounting parts. In particular, the Pro Micro, key switch, and encoder will be installed last, so be careful not to implement them first.
+Follow the steps below for the mounting order. ** **
 
-右手側 裏面  
-<img width="700" alt="RGB" src="https://github.com/3araht/giabalanai/blob/master/pictures/right_rear_pcb.jpg">
+The diode mounting location and keyboard name are printed on the back of the board.
 
+Left hand side front side
+<img width = "700" alt = "PCB" src = "https://github.com/3araht/giabalanai/blob/master/pictures/left_front_pcb_r02.jpg">
 
-#### 裏面には次の部品を実装します
- - LED[Optional]
- - ダイオード
- - TRRSジャック
- - リセットスイッチ
- - Pro Micro
+Left hand side back side
+<img width = "700" alt = "PCB" src = "https://github.com/3araht/giabalanai/blob/master/pictures/left_rear_pcb_r02.jpg">
 
-#### オモテ面には次の部品を実装します
- - キースイッチ
- - エンコーダ
+Right hand side front side
+<img width = "700" alt = "PCB" src = "https://github.com/3araht/giabalanai/blob/master/pictures/right_front_pcb_r02.jpg">
 
+Right hand side back side
+<img width = "700" alt = "PCB" src = "https://github.com/3araht/giabalanai/blob/master/pictures/right_rear_pcb_r02.jpg">
 
-## 1 ダイオードの取付け
-キーの数が多いキーボードではMatrixという手法を使ってキーが押されたかどうか判断します。
-キーが必ず1個ずつしか押されないと保証されているのであれば、このダイオードは不要なのですが、
-和音を弾くことがあるので複数のキーを同時に押す場面が出てきます。
-このとき、Matrixという手法で複数同時押しを正しく判断するためにこのダイオードが必要になります。
-詳しい説明については、[こちら](https://docs.qmk.fm/#/how_a_matrix_works)などをご覧ください。
 
-ダイオードには向きがあります。また、図のように足を曲げておきます。
-ダイオードをつまんで両端の足を同時に曲げると図の右のように比較的ちょうどいい形になります。  
-<img width="700" alt="diode" src="https://github.com/3araht/giabalanai/blob/master/pictures/diode_bend.jpg">
+#### Mount the following parts on the back side
+ --LED [Optional]
+ - diode
+ --TRRS jack
+ --Reset switch
+ --Pro Micro
 
-キースイッチと干渉しないように、ダイオードは基板の裏面に実装します。
-ダイオードの黒い線のほうが四角いフットプリント（Kと印字されている方, K はKathode（独）の頭文字らしいですが、黒（Kuro) の K で。）に合うように配置します。  
-<img width="700" alt="diode" src="https://github.com/3araht/giabalanai/blob/master/pictures/diode_align1.jpg">
+#### Mount the following parts on the front side
+ --Key switch
+ --Encoder
 
-足を曲げて基板に這わせてダイオードを仮止めします。  
-<img width="700" alt="diode" src="https://github.com/3araht/giabalanai/blob/master/pictures/diode_flatten.jpg">
 
-オモテ面から見た図  
-<img width="700" alt="diode" src="https://github.com/3araht/giabalanai/blob/master/pictures/diode_flatten2.jpg">
+## 1 Diode installation
+On keyboards with a large number of keys, a technique called Matrix is ​​used to determine if a key has been pressed.
+This diode is unnecessary if it is guaranteed that only one key will be pressed at a time.
+Since I sometimes play chords, there are occasions when I press multiple keys at the same time.
+At this time, this diode is required to correctly judge multiple simultaneous pushes by the method called Matrix.
+For a detailed explanation, see [here] (https://docs.qmk.fm/#/how_a_matrix_works).
 
-オモテ面から半田付けします。  
-<img width="700" alt="diode" src="https://github.com/3araht/giabalanai/blob/master/pictures/diode_soldered.jpg">
+The diode has a direction. Also, bend your legs as shown.
+If you pinch the diode and bend the legs at both ends at the same time, the shape will be relatively good as shown on the right of the figure.
+<img width = "700" alt = "diode" src = "https://github.com/3araht/giabalanai/blob/master/pictures/diode_bend.jpg">
 
-足をニッパでカットします。  
-<img width="700" alt="diode" src="https://github.com/3araht/giabalanai/blob/master/pictures/diode_feet_cut.jpg">
+The diode is mounted on the back of the board so that it does not interfere with the keyswitch.
+Arrange the black line of the diode so that it fits the square footprint (the one printed with K, K seems to be an acronym for Kathode (Germany), but with K in black (Kuro)).
+<img width = "700" alt = "diode" src = "https://github.com/3araht/giabalanai/blob/master/pictures/diode_align1.jpg">
 
+Bend your legs and crawl on the board to temporarily fix the diode.
+<img width = "700" alt = "diode" src = "https://github.com/3araht/giabalanai/blob/master/pictures/diode_flatten.jpg">
 
-## 2 Backlight RGB LEDの取付け[Optional]
-バックライト用のチップLED(SK6812mini)はPCBの裏面から実装します。向きに注意して穴に入れてください。
-LEDの裏から見て、一番大きいパッド（5V）とシルク（印字の事）の○が同じ位置になります。
-LEDはデータを直列に伝送する都合上、最上行はオモテ面からみて左から右、2行目は右から左、3行目はまた左から右に…と並んでいます（右手側の場合）。  
-<img width="700" alt="RGB_LED" src="https://github.com/3araht/giabalanai/blob/master/pictures/LED_serial.jpg">
+View from the front side
+<img width = "700" alt = "diode" src = "https://github.com/3araht/giabalanai/blob/master/pictures/diode_flatten2.jpg">
 
-このため、偶数行と奇数行のLEDの向きが違うので十分ご注意ください。
-半田付けが軌道に乗った矢先に向きを間違えがちです。
-その時のショックと言ったら。。。（経験者談）。  
-<img width="700" alt="RGB" src="https://github.com/3araht/giabalanai/blob/master/pictures/SK6812mini_alignment.jpg">
+Solder from the front side.
+<img width = "700" alt = "diode" src = "https://github.com/3araht/giabalanai/blob/master/pictures/diode_soldered.jpg">
 
-温調半田ごてを使い、約220℃で半田付けします。温度が高いとLEDが壊れますので注意してください。
-温調できない半田ごてではすぐに焦げます＆壊れます（これも経験者談）。
+Cut your legs with nippers. Your legs will fly vigorously, so it's a good idea to hold your legs while cutting.
+<img width = "700" alt = "diode" src = "https://github.com/3araht/giabalanai/blob/master/pictures/diode_feet_cut.jpg">
 
-こてを斜めにして接触面積を広げるとやり易いという事がわかりました。  
-<img width="700" alt="RGB_LED" src="https://github.com/3araht/giabalanai/blob/master/pictures/LED_solder_iron.jpg">
+Solder this to 60 places on the left-hand side board and 39 places on the right-hand side board.
 
-LEDは、右手側 Pro Micro の1番ピン（Tx）から右手側基板の左上のLEDから直列繋ぎにデータを伝達し、右手側基板上の63個のLEDを通過したデータはTRRSケーブルを通じて左手側基板上面からみて右上のLEDから直列繋ぎにデータを伝達します。
+Nothing is implemented in R1 in the figure below.
+<img width = "700" alt = "diode" src = "https://github.com/3araht/giabalanai/blob/master/pictures/R1_NoSolder.jpg">
 
-右手側基板および左手側基板の下図の位置を半田でジャンパします。
 
-1、右手側基板の2箇所と、  
-<img width="700" alt="Jumper" src="https://github.com/3araht/giabalanai/blob/master/pictures/LED_right_jumper.jpg">
+## 2 Backlight RGB LED installation [Optional]
+Image training is important, so first check out the video that introduces the soldering process in "SK6812mini Soldering".
+Also, using the following is the key to success.
+--Set the temperature to 200 ° C to 220 ° C with a soldering iron with temperature control function.
+--Use lead-containing solder (eutectic solder) with a low melting point
 
-2、左手側基板のここ。  
-<img width="700" alt="Jumper" src="https://github.com/3araht/giabalanai/blob/master/pictures/LED_left_jumper.jpg">
+The chip LED (SK6812mini) for the backlight is mounted from the back side of the PCB. Pay attention to the orientation and insert it into the hole.
+When viewed from the back of the LED, the largest pad (5V) and silk (printing) ○ are in the same position.
+For the convenience of transmitting data in series, the LEDs are lined up from left to right when viewed from the front side, the second line from right to left, the third line from left to right, and so on (in the case of the right hand side). ).
+<img width = "700" alt = "RGB_LED" src = "https://github.com/3araht/giabalanai/blob/master/pictures/LED_serial.jpg">
 
-LEDの情報は直列に伝送されますので、接続が途切れてしまうと正しくLEDが光らなくなります。
+Therefore, please note that the directions of the LEDs on the even and odd rows are different.
+It's easy to get the wrong direction when the soldering is on track.
+Speaking of shock at that time. .. .. (Experienced person talk).
+<img width = "700" alt = "RGB_LED" src = "https://github.com/3araht/giabalanai/blob/master/pictures/SK6812mini_alignment.jpg">
 
+Use a temperature-controlled soldering iron to solder at approximately 220 ° C. Please note that the LED will break if the temperature is high.
+A soldering iron that cannot control the temperature will burn and break immediately (this is also an experienced person).
 
-## 3 リセットスイッチとTRRSジャックの取付け
-左右の基板共、白い四角い枠のシルクに沿って裏側に取り付けます。浮いたり曲がった状態で実装しないようにマスキングテープなどで予め仮止めしてから半田付けするとミスが少なくなります。  
-<img width="700" alt="S_T" src="https://github.com/3araht/giabalanai/blob/master/pictures/TRRS_ResetSW.jpg">
+I found that it is easier to do it by tilting the trowel and expanding the contact area.
+<img width = "700" alt = "RGB_LED" src = "https://github.com/3araht/giabalanai/blob/master/pictures/LED_solder_iron.jpg">
 
-## 4 Pro Micro 用ピンヘッダの取付け
-**※コンスルー（スプリングピンヘッダ）を使う場合はこの工程は不要です。**
-白い四角い枠のシルクに沿って裏側にピンヘッダを取り付けます。
-**この時点で Pro Micro を取り付けてはいけません。一度半田付けしてしまった Pro Micro を取り外すのは至難の技です。充分ご注意ください。**
-
-
-## 5 キースイッチ、エンコーダ（Option）の取付け
-**スイッチを取り付ける前に部品の取付けや半田付けができているか確認します。**  
-（1 のダイオードは必ず済ませておいてください。）  
-
-
-※スプリングピンヘッダを使用する場合は6と8の工程を先に行い、動作確認(下図のようにキースイッチ部をピンセットなどでショートさせ、MIDI機器を認識するソフトで音が出るか確かめる事)をすると失敗する可能性が減ります。  
-<img width="700" alt="switch" src="https://github.com/3araht/giabalanai/blob/master/pictures/Keysw_test.jpg">
-
-キースイッチをオモテ側からしっかり奥まで差し込みます。このとき、端子が曲がっていると実装穴に端子が入らないので注意してください。1行ずつキースイッチをしっかり差し込んでから半田付けしていった方が差し込み不良は減らせると思います。      
-<img width="700" alt="switch" src="https://github.com/3araht/giabalanai/blob/master/pictures/Keysw_front.jpg">  
-<img width="700" alt="switch" src="https://github.com/3araht/giabalanai/blob/master/pictures/Keysw_rear.jpg">
-
-
-
-## 6 Pro Micro の取付け
-**作業前にPro MicroをUSBでPCと繋げて動作を確認しておきましょう。**
-取り付ける前に半田忘れがないか確認します。
-左右の基板とも Pro Micro を表にして取り付けられるようになります。
-取り付けたときに Pro Micro の浮きがないか確認し、浮きがあれば Pro Micro下のスイッチの足を少しカットします。
-
-※コンスルーを使う場合は Pro Micro 側のみを半田付けします。  
-<img width="700" alt="CT" src="https://github.com/3araht/giabalanai/blob/master/pictures/Con_through.jpg">
-
-コンスルーを斜めに半田付けしないように、基板の**裏面から**コンスルーを差しておいてピンが垂直になるようにします。
-下図のように、Pro Micro 側(側面に空いている小さな穴が近い方)を上にして基板にコンスルーを差し込みます。
-このとき、図のように、コンスルーの向きを揃えておきます（＝2つとも側面の小さな穴が空いている方向を揃えます）。  
-<img width="700" alt="switch" src="https://github.com/3araht/giabalanai/blob/master/pictures/Con_through_onPCB.jpg">
-
-*Pro Micro の上下の向きに注意。Pro Micro の TxD ピンが基板の TxD に刺さるように向きが合っているか確認します。  
-<img width="700" alt="CT" src="https://github.com/3araht/giabalanai/blob/master/pictures/Con_throughSoldered2ProMicro.jpg">  
-<img width="700" alt="CT" src="https://github.com/3araht/giabalanai/blob/master/pictures/ProMicro_TxD_r01.jpg">
-
-コンスルーを基板の裏面から差し、TxD の位置を見て向きが揃っていることを確認したら、コンスルーと Pro Micro を半田付けします。
-**一度半田付けしたコンスルーを外すのは困難を極めますので、十分注意してください。**
-
-## 7 ボトムプレート、スペーサーの組み立て
-ボトムプレートの、図の赤丸の位置 10 箇所に M2 のねじで スペーサーを取り付けます。  
-<img width="700" alt="spacer" src="https://github.com/3araht/giabalanai/blob/master/pictures/BottomPlate.jpg">  
-<img width="700" alt="spacer" src="https://github.com/3araht/giabalanai/blob/master/pictures/SpacerOnBottomPlate.jpg">
-
-キースイッチの間にネジをセットするにはピンセットを使います。  
-<img width="700" alt="spacer" src="https://github.com/3araht/giabalanai/blob/master/pictures/ScrewSettingWIthTweezers.jpg">
-
-ネジ止めは、たすき掛けで均一に締めつけますが、強く締めつけすぎないようにします。
-
-（左手側は、左上と右下の二箇所がキースイッチと干渉してしまって上からねじ止めができませんでした。。。すみません。）  
-<img width="700" alt="spacer" src="https://github.com/3araht/giabalanai/blob/master/pictures/leftUpperLeftCorner.jpg">
-
-緑丸の位置にクッションシールを取り付けます。  
-<img width="700" alt="gom" src="https://github.com/3araht/giabalanai/blob/master/pictures/Cushon.jpg">
-
-## 8 Firmwareの書き込み
-左右の基板の Pro Micro に同じHEXファイルを書き込みます。
-
-### 8.1 コーティングはちょっと自信がない／とりあえず基本機能で動作させたい、という方 ###
-
-コンパイル済のHEXファイルは[こちら](https://github.com/3araht/giabalanai/blob/master/giabalanai_3araht.hex)からダウンロードできます。
-**サスティン問題対策版です♪**
-
-初めての方はHEXファイルの書き込みに以下のツールを使うことをお勧めします。  
-https://github.com/qmk/qmk_toolbox
-
-QMK Toolbox の使い方（Win版） は サリチル酸さんの[記事](https://salicylic-acid3.hatenablog.com/entry/qmk-toolbox)がとても参考になります(サリチル酸さん、どうもありがとうございます)。
-
-Macをご使用の方: インストール方法が違うだけで、基本的には同じです。
-
-### 8.2 コーティングに慣れている方、チャレンジされる方 ###
-
-以下を参考に書き込んでください。または、QMKで検索すると書き込み方がすぐに出てくるはずです。  
-https://docs.qmk.fm/#/getting_started_build_tools
-
-giabalanai の Firmware は以下にUPされるよう push request 中です。
-https://github.com/qmk/qmk_firmware/tree/master/keyboards/giabalanai
-
-それまで、暫定的に[こちら](https://github.com/3araht/giabalanai/blob/master/temp/qmk_firmware/keyboards/giabalanai)のソースコードをお使いください。
-
-#### 8.2.1 暫定的にUPしたソースの使い方 ####
-1. まず、qmk_firmware を clone してきます。
-https://github.com/qmk/qmk_firmware
-
-2. qmk_firmware/util/new_keyboard.sh を使って giabalanai キーボード を新規登録します。以下のコマンドでスクリプトを実行します。  
-このコマンドは qmk_firmware フォルダで実行します。  
-```
-./util/new_keyboard.sh
-```
-下図の赤い文字にしたがって進めて行きます。こうすると、正式な手続きでgiabalanai キーボードのフォルダが qmk_firmware/keyboards に出来上がります。  
-<img width="700" alt="new_keyboard" src="https://github.com/3araht/giabalanai/blob/master/pictures/new_keyboard.png">  
-また、これにより、qmk_firmware フォルダで  
-```
-make giabalanai:default
-```
-などのコンパイルも通るようになります。
-
-3. 暫定的に UP している[こちら](https://github.com/3araht/giabalanai/blob/master/temp/qmk_firmware/keyboards/giabalanai)のソースコードを qmk_firmware/keyboards/giabalanai に上書き保存します。
-
-4. サスティン問題回避  
-MIDIソフトによっては、同じ音を重ねて鳴らしたときにその音にUSBケーブルを抜き差しするまでサスティンがかかってしまう現象がありました。
-対策方法がわかりましたので、それを適用します（こちらも pull request 中。正式に採用されるまでの暫定対策）。  
-以下の diff 結果を 参考に、 qmk_firmware/quantum/process_keycode/process_midi.c を修正してください。  
- → `if (tone_status[tone] == MIDI_INVALID_NOTE) {` `}`を追加します。
-
-```
-diff --git a/quantum/process_keycode/process_midi.c b/quantum/process_keycode/process_midi.c
-index b2fb902eb..e52577014 100644
---- a/quantum/process_keycode/process_midi.c
-+++ b/quantum/process_keycode/process_midi.c
-@@ -68,10 +68,12 @@ bool process_midi(uint16_t keycode, keyrecord_t *record) {
-             uint8_t tone     = keycode - MIDI_TONE_MIN;
-             uint8_t velocity = compute_velocity(midi_config.velocity);
-             if (record->event.pressed) {
--                uint8_t note = midi_compute_note(keycode);
--                midi_send_noteon(&midi_device, channel, note, velocity);
--                dprintf("midi noteon channel:%d note:%d velocity:%d\n", channel, note, velocity);
--                tone_status[tone] = note;
-+                if (tone_status[tone] == MIDI_INVALID_NOTE) {
-+                    uint8_t note = midi_compute_note(keycode);
-+                    midi_send_noteon(&midi_device, channel, note, velocity);
-+                    dprintf("midi noteon channel:%d note:%d velocity:%d\n", channel, note, velocity);
-+                    tone_status[tone] = note;
-+                }
-             } else {
-                 uint8_t note = tone_status[tone];
-                 if (note != MIDI_INVALID_NOTE) {
-```
-
-5. カスタマイズ！  
-~~かなり Staggered なので、このキーボードでタイピングすることはあまり考えていないと思いますが、必要に応じてカスタマイズしてお使いください。~~  
-意外と打てました。左手側のキーボードを5x12の60％キーボードとして使えそうです。  
-（また、register switch 機能を付与するなどのカスタマイズは面白いかもしれませんね。）
-
-
-### 8.3 default について
-**上記コンパイル済のHEXファイルは下記に示すdefault 設定に加えてLEDが実装されていれば押したキーのLED が発光するようになっています。**
-
-USBケーブルを接続したら、アコーディオンの配列になります。
-
-エンコーダを右に回すと音量が大きくなり、左に回すと小さくなるようになっています。
-エンコーダは押しボタンにもなっており、押すとミュートON/OFFを切り替えるようになっています。
-
-エンコーダボタン（短押しだとミュート）を長押しながら左手側キーボード 2行1列目のD♭Majorのコードのキーを押すと
-左手側キーボード の5行12列がQWERTY配列のキーボード になるようになっています（マイナス記号など一部配置されていないので簡易的なものになります）。
-アコーディオンの配列に戻す場合は、エンコーダボタンを長押しながら左手側キーボード 1行1列目のD♭のキーを押します。
-なお、電源を再投入（USB抜き差し）したら
-~~アコーディオンの配列（C-System）に戻ります。~~ 最後に使っていたアコーディオン配列に戻ります。
-
-**ここからは上記コンパイル済のHEXファイルの場合**  
-右手側下3行だけはB-systemにすることもできます。エンコーダーボタン長押し＋左手側キーボード 1行2列目のA♭のキーを押します（誤白川さん、アイデアありがとうございます）。
-
-また、左手側のベース音を2列にした Counter Bass レイアウトにも変更可能です。エンコーダーボタン長押し＋左手側キーボード 1行3列目のE♭のキーを押します（チャラン・ポ・ランタン 小春さん、ご要望いただきありがとうございます）。
-
-オクターブ調整もできるようになりました。
-
-|                               操作                    |       変更先レイヤー（配列）  |
-|------------------------------------------------------|---------------------------|
-| エンコーダーボタン長押し＋左手側キーボード 1行1列目のD♭ | アコーディオン配列（C-System）＝初期状態|
-| エンコーダーボタン長押し＋左手側キーボード 2行1列目のD♭Major | QWERTY 配列（左手側キーボード）|
-| エンコーダーボタン長押し＋左手側キーボード 1行2列目のA♭ | アコーディオン配列（B-System、ただし下3行のみ)|
-| エンコーダーボタン長押し＋左手側キーボード 1行3列目のE♭ | アコーディオン配列（C-System, Counter Bass版=dim コード無し）|
-| エンコーダーボタン長押し＋左手側キーボード 1行12列目のF# | LED ON/OFF 切り替え（LED を実装している場合）|
-|||
-|エンコーダーボタン長押し＋右手側キーボード 3行1列目のG# | 2オクターブ低く|
-|エンコーダーボタン長押し＋右手側キーボード 3行2列目のB | 1オクターブ低く|
-|エンコーダーボタン長押し＋右手側キーボード 3行3列目のD | 基準の音階|
-|エンコーダーボタン長押し＋右手側キーボード 3行4列目のF | 1オクターブ高く|
-|エンコーダーボタン長押し＋右手側キーボード 3行5列目のG# | 2オクターブ高く|
-| USB ケーブル抜き差し | 前回最後に使っていたアコーディオン配列に戻ります。オクターブは基準音階に戻ります。|
-
-
-**このキーボードでは、右手側がマスターとなっていますので、USBケーブルは必ず右手側に接続してください。**
-
-## 9 チェックポイント
-簡単なチェック項目を挙げます。参考になれば幸いです。
-
-- Pro Micro は左右の基板共にしっかり基板に刺さっている。
-- Pro Micro のピンと基板のピンは一致させた状態で接続できている（Pro Micro の上下の向き確認）。
-- Pro Micro にファームウェアを書き込んである（左右同じHEXファイルを書き込みます）。
-- TRRS ケーブルはしっかり奥まで刺さっている（少しきついのでこれが問題となりがちです。ご注意ください。）
-  また、TRRSケーブル内に 5V と GND 線が走っており、電源投入中に抜き差しするとショートする恐れがあるので、活線挿抜はお控えください。
-- MIDI機器に対応したソフトを起動している。
-- USBケーブルは右手側のキーボードに接続されている。
-- 半田付けに問題はないか（ダイオードの向き、赤目、富士山、など）。
-
-また、遊舎工房さんの[サポートサイト](https://yushakobo.zendesk.com/hc/ja)が参考になると思います。併せてご覧ください。
+**important point**  
+When mounting the LED right next to the Pro Micro on the right hand side, be careful not to get it on the B6 pin.
+<img
